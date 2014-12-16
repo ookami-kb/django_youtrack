@@ -1,3 +1,0 @@
-[submodule "dj_youtrack/lib"]
-	path = dj_youtrack/lib
-	url = https://github.com/JetBrains/youtrack-rest-python-library.git
