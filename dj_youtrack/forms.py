@@ -20,11 +20,11 @@ class IssueForm(forms.Form):
             response, content = connection.createIssue(self.project, assignee=None,
                                                        summary=u'Issue from feedback form',
                                                        description=self.cleaned_data['description'])
-            print response
             issue_id = response['location'].split('/')[-1]
-            commands = 'Customer email ' + self.cleaned_data['email']
+            commands = ''
             if self.subsystem is not None:
                 commands += ' Subsystem %s' % self.subsystem
+            commands += ' Customer email ' + self.cleaned_data['email']
             connection.executeCommand(issue_id, commands)
             return True
         except YouTrackException:
