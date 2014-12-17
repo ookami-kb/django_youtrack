@@ -9,8 +9,9 @@ class IssueForm(forms.Form):
     email = forms.EmailField()
     description = forms.CharField(widget=forms.Textarea)
 
-    def __init__(self, project, **kwargs):
+    def __init__(self, project, subsystem=None, **kwargs):
         self.project = project
+        self.subsystem = subsystem
         super(IssueForm, self).__init__(**kwargs)
 
     def submit(self):
@@ -21,7 +22,10 @@ class IssueForm(forms.Form):
                                                        description=self.cleaned_data['description'])
             print response
             issue_id = response['location'].split('/')[-1]
-            connection.executeCommand(issue_id, 'Customer email ' + self.cleaned_data['email'])
+            commands = 'Customer email ' + self.cleaned_data['email']
+            if self.subsystem is not None:
+                commands += ' Subsystem %s' % self.subsystem
+            connection.executeCommand(issue_id, commands)
             return True
         except YouTrackException:
             return False
