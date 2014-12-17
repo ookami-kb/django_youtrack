@@ -9,6 +9,6 @@ setup(
     license='',
     author='ookami-kb',
     author_email='ookami.kb@gmail.com',
-    description='',
+    description='django_youtrack',
     requires=['django']
 )
