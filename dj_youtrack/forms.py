@@ -9,6 +9,9 @@ class IssueForm(forms.Form):
     email = forms.EmailField()
     description = forms.CharField(widget=forms.Textarea)
 
+    def get_summary(self):
+        return u'Issue from feedback form'
+
     def __init__(self, project, subsystem=None, **kwargs):
         self.project = project
         self.subsystem = subsystem
@@ -18,7 +21,7 @@ class IssueForm(forms.Form):
         try:
             connection = Connection(settings.YOUTRACK_URL, settings.YOUTRACK_LOGIN, settings.YOUTRACK_PASSWORD)
             response, content = connection.createIssue(self.project, assignee=None,
-                                                       summary=u'Issue from feedback form',
+                                                       summary=self.get_summary(),
                                                        description=self.cleaned_data['description'].encode('utf-8'))
             issue_id = response['location'].split('/')[-1]
             commands = ''
