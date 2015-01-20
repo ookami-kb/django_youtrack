@@ -21,7 +21,7 @@ class IssueForm(forms.Form):
         try:
             connection = Connection(settings.YOUTRACK_URL, settings.YOUTRACK_LOGIN, settings.YOUTRACK_PASSWORD)
             response, content = connection.createIssue(self.project, assignee=None,
-                                                       summary=self.get_summary(),
+                                                       summary=self.get_summary().encode('utf-8'),
                                                        description=self.cleaned_data['description'].encode('utf-8'))
             issue_id = response['location'].split('/')[-1]
             commands = ''
